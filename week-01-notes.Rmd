@@ -1,0 +1,360 @@
+---
+title: "Week-01-Notes"
+author: "Andrew Nalundasan"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    number_sections: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Week 1 Overview
+
++ 6 credit course
++ query assignments due from the starting line
++ sort out technical aspects immediately
++ ensure able to access SQL Server
++ SQL Server Name:
+    
+    + ITS-ALBRS-DB1.SEATTLEU.EDU
+    + ADVENTUREWORKS2017 <- main DB we'll be working with
+    
++ naming convention:
+
+    + as_22SQ_(your initials)_(database name)
+    + e.g.for Jose Rodriguez: 
+        + as_22SQ_jr_salesorder
+        + as_22SQ_jr_recipes
+        
++ access SQL server via Albers virtual desktop: 
+
+    + https://www.seattleu.edu/its/collab/virtual-desktop/
+    
++ Every week: 
+
+    + overview video
+    + go over queries
+    + insights and recommendations
+    + feedback
+    + adjustment to assignments
+    
+    
+# Overview and Hello
+
++ databases
++ objectives:
+
+    + data types
+        + Structured
+        + NoSQL
+        + Unstructured Big Data
+    + DBMS
+        + Collect and store data
+        + index data to access it
+        + protect the data
+        + scalability
+        + de-mystify the complexity of DBMS
+    + Query Languages and Tools
+        + T-SQL for SQL Server
+        + MQL for MongoDB (unstructured)
+        + Hadoop for unstructured data types
+        + Power BI
+    + Understand how data is stored and managed, and how to write queries to access that data
+
+
+# What is Corporate Data
+
++ business related information used to help corporation be more successful and profitable
++ ignores data that adds no business / corporate value
++ transactional data - historically provided the most business value
++ changing data formats
+
+    + semi-structured data (social media)
+    + structured data
+    + unstructured data
+        + analyze big data and determine sentiment
+
++ new norm is no longer looking at transactional and structured data
++ must keep asking questions as an analyst
++ DATA ADVENTURERS!!!
+
+
+# Course Logistics
+
++ Everything will be on canvas
++ 10 modules for the quarter. Each module will have: 
+
+    + overview video
+    + lecture videos
+    + examples
+    + "Take a break" - get your hands dirty
+        + includes assignments to submit
+        + provides information about how to knock out the weekly assignment
+    + weekly assignment
+    
++ SQL Queries for Mere Mortals - because it's awesome :) 
+
+    + Focuses on data querying and manipulation <- what OMSBA is all about!
+    
++ Mongo DB
++ Architecting Modern Data Platforms - hadoop
+
++ this will be very hands-on technical class
++ It will combine database theory and design with examples and hands-on query building
++ Grading
+
+    1. weekly assignments
+    2. Exams - midterm, final
+    3. DTC
+
+# Introductions
+
++ never underestimate the power of a strong network
++ start the journey by looking at the end requirements
++ know what the plant management system needed in order to run the plant
++ build the DBMS to bring it all together intelligently
+
+
+# Database Systems
+
++ Database
+
+    + Collections of data sets stored in a systematic way
+    + document store
+    + data warehouse
+    + data mart
+    
++ Data Lake
+
+    + Require less up front management of the data
+    + Open system that receives all kinds of native in their native format
+        + unstructured
+    + typically at high-velocity, from a variety of sources
+    
++ Types of data
+
+    1. Structured (Relational)
+        + Rigid scheme-based, for rows and columns
+        + Traditional business DBs
+        + Known and maintained format
+        + Products / sales / inventory / warehouse
+        + DBMS required
+            + Heavyweight, server-based systems
+            + Controls all access and data integrity
+            + Fast and scale upward
+            + SQL Server / Oracle / MySQL / PostgreSQL
+    2. Semi-structured (NoSQL <- "Not Only SQL")
+        + non-relational and schema-less
+        + Mobile and Web Applications
+        + Seld-describing documents, graphs, and key-values
+        + Facebook, OneNote, EverNote
+        + DBMS not required
+            + Lightweight, mobile
+            + Works across platforms and devices
+            + Places data logic and integrity on the application
+            + JSON / MongoDB / Redis / Cassandra
+            + Able to make changes to the data going forward, without making changes to historical data (due to semi-structured format)
+    3. Unstructured (Big Data)
+        + Unknown or changing structure
+        + **All data has some kind of structure**, but we may not know it or control it or the structure varies
+        + Can be pretty much any kind of data
+        + **Sensor data** / social media posts / text/ binary
+        + Sophisticated tools required
+            + Hadoop / HBase / Google Big QUery / DynamoDB
+            + often provide Data Lakes
+            + heavy-weight tools that are scalable and high-speed
+            + specially designed programming tools and skills
+            
+
+# Structured Database Concepts
+
++ Database Elements
+
+    + Table <- collection of related data held in a DB
+        + should NOT contain mixture of data
+        + should ONLY contain related data
+    + Row <- also called record, tuple, or data set
+    + Field <- also called column, data values, or predictor
+    
++ DB Designs
+
+    + Database Schema <- blueprint of the tables and fields and relationships
+    + Data Model <- higher level design
+    + Relationship <- how fields between tables are linked
+    + keys <- determine how the table is indexed and how things are related (how tables are linked together)
+        + need some kind of key to link to other tables
+
++ Data Dictionary
+    + Stores the description of tables in a database
+    + And databases in an organization
+    + AKA data catalog, metadata repository
+    
+
+# Database Management Roles
+
++ Oversight
+
+    + CIO
+        + interfaces with the board
+        + responsible for ensuring all data is properly protected 
+    + CTO
+        + oversees grand plan of how everything fits together
+        + People have access to all data schemas, models, integration
+        + good place for analysts to get ingrained with
+    + DB Architect aka Application Architect
+        + understands every application within the company
+        + the entire flow of data from origin to passing around to other parts of orgnaization
+        + transaction data flows to other applications
+        + architect must know where the data is created and where it ends up
+        + manage things within the DB environment
+    + Data Security Architect
+        + manage data privacy issues
+        + what's accessed, who access it, and how is it accessed
+        + ensure data is properly controlled
+
++ Daily Hands on
+
+    + DB Administrator
+        + person responsible for 1 or more DB's of a particular product type
+        + ensure DB runs properly
+        + ensure the right people have the right access to products
+        + ensures DB is backed up and safe
+    + DB Security Administrator
+        + similar to security architect
+        + grants rights to data
+    + DB Designer / Developer
+        + not concerned with daily upkeep of DB
+        + takes user specifications to develop the right kind of DB with the right kind of structure, according to grand plan
+    + Data Integration Engineer
+        + manage data warehouse and approves requests
+    + Application Programmer
+        + write / develop applications
+        + come up with specifications of what users want
+        + work with DB Designer / Developers to write the application
+
++ DB Architecture
+
+    1. Transaction systems
+    2. Operational DBs
+    3. ETL processes
+    4. Data Warehouse
+    5. Data Marts
+    6. Business Intelligence Environment
+    7. Information
+
+# Databases & Data Analytics
+
+Data analyst-like roles
+
++ Data Scientist <- full spectrum
++ Data Wrangler <- dirty data
+
+    + aka data munging
+    
++ Data Analyst <- all about insights
+
+    + analysis via statistical modeling
+    + drive insights and decision making 
+    
++ Report Designer <- make it understandable
+
+    + make reports because they understand the data
+    + take raw data to build excellent visualizations to use for data storytelling
+    
++ Data Mining
+
+    + the data needs to be accurate!
+    + find *hidden patterns and relationships* in large DBs and infer rules from them to predict future behavior
+    + *non-trivial extraction* of implicit, previously unknown and potentially useful information from data
+    + Exploration & analysis by *automatic/semi-automatic means* of large quantities of data in order to discover meaningful patterns
+    + Data Mining <- ML > Pattern recognition > Statistics > Visualization > High-performance computing > DB technology > algorithm > applications
+
++ Data Mining Life-cycle
+
+    1. Business understanding (domain / context)
+    2. Data understanding (EDA)
+    3. Data preparation (wrangling)
+    4. Modeling
+    5. Evaluation
+    6. Deployment
+
++ Assignment 01-03-01 (unstructured data analysis)
+
+    + look at canvas
+    + various career sites
+        + indeed / glassdoor / LI / google
+    + 3-5 different groups
+    + Paragraph: 
+        1. What gorup the document is for
+        2. Why these postings fit in the group
+        3. Identify any postings that could fit into multiple groups
+        4. List several terms and phrases (from the posting) that are new to you
+            + acronyms
+            + phrases / words
+            + technologies / languages
+            
+            
+# Albers Virtual Desktop
+
++ access to Albers desktop
++ using VMWare client to login
++ successful login to virtual desktop
++ verified all necessary software is installed and available
+      
+
+# SQL Server Local
+
++ No thanks!
+
+
+# Database Review - Assignment
+
++ Database <- collection of data sets stored in a systematic way
++ Data types: structured / semi-structured / unstructured (idk what the structure is or can't control it)
++ Structured data
+
+    + schema-based, relational DBs
+    + traditional business DBs
+    + known and maintained format
+    + products / sales / inventory / warehouse
+    + DBMS required
+        + heavyweight, server-based systems
+        + controls all access and data integrity
+        + fast and scale upward
+        
++ DB Elements
+
+    + table <- collection of related data held in a DB
+    + row <- aka record, tubple, data set
+    + field <- column, data values, or predictor
+        + types of data
+    + schema
+    
++ DB example: manages sales and returns
+
+    + can't change DB much once it's put in place
+    
++ Updating Frequency
+
+    + Database
+        + Batch Processing <- collects all transactions for a time period, then processes the data and updates the data store.
+            + ran at some set recurrence (eg. "every 24 hours) 
+        + OLTP <- Online-Transaction-Processing - processes each transaction as it occurs (real-time)
+            + does not mean "cloud" 
+            
+
+    
+
+
+
+
+
+
+
+
