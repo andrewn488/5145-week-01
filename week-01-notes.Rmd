@@ -348,6 +348,227 @@ Data analyst-like roles
         + OLTP <- Online-Transaction-Processing - processes each transaction as it occurs (real-time)
             + does not mean "cloud" 
             
+            
+# 01-06-01 - DBMS Overview
+
++ Database must be organized, controlled, and secure
++ DBMS
+
+    + System software <- creating and managing databases and data
+    + Provides users and programmers with a systematic way to create, retrieve, update, and manage data
+    + Ensures data is clean
+    + Examples for Structured Relational DBs: 
+        + SQL Server
+        + MySQL
+        + Oracle
+        + PostgreSQL
+        + IBM DB2
+        + Amazon RDS
+        + Sybase
+
++ DBMS Software is the link between application servers and different databases
+
+    + Ensures clean and updated data
+
+
+# 01-06-02 - Database Hosting
+
++ some way that we host a database
++ Data Center made up of racks and servers
++ hosting a database means that it resides on a server in a data center so that it's properly managed
++ DBMS must host the database as well as: 
+
+    1. Data Manipulation (ACID)
+    2. Performance
+    3. Availability
+    4. Security & Compliance
+
++ Database Hosting <- here's the DB, it sits out there on the DB server, and it's managed by the DBMS
+
+
+# 01-06-03 - ACID - Data Manipulation
+
++ ACID <- a set of conditions that guarantee the validity of a transaction 
+
+    + Everything we do with the data must fall within ACID
+    + Ensures each transaction follows the ACID conditions
+    
++ Transaction <- credit card purchase, submit timesheet, submit insurance claim, manufacturing equipment measuring sensor readings and sends to a log, heart rate monitor and submits to EMR's, buying/selling stocks
+
++ Atomicity <- guarantees each transaction is a single unit, unaffected by other transactions
+
+    + Bank withdrawal
+    + Ensures all transactions are treated separately
+
++ Consistency <- guarantees that a transaction follows all the rules or won't be applied
+
+    + Amount is a currency and dates are valid
+    + All about rules
+    + Can't do a query to submit data to a DB that doesn't follow the 'date' and 'currency' rules
+
++ Isolation <- guarantees transaction happen sequentially, rather than at the same time
+
+    + withdrawals happen in order
+
++ Durability <- guarantees once a transaction is committed it remains part of the data, regardless of system failure
+
+    + Transaction is written to a hard drive
+    
++ DBMS Query MUST pass the ACID test
+
+    + Update
+    + Insert
+    + Delete
+
++ Control constraints
+
+    + Keys - ensures uniqueness (primary keys)
+    + Referential Integrity - ensure validity
+    + Data parameters - ensure correctness
+    + Trigger - ensure follow on processes are completed
+    + Synchronization - transactions in databases are in sync
+    
++ Everything comes into play with how you do your queries
+
+# 01-06-04 - Performance
+
++ regarding "how well" the server delivers what's needed for applications and users that use the DB
++ Performance
+
+    + Concurrency <- how many people/applications will be using the DB at the same time
+    + Scale <- what size does the DB need to be in order to deliver the performance needed
+    + add additional application servers to scale up and meet "load balancing" needs
+        + get rid of the old machine and install a bigger machine with more capability
+        + memory 16GB - 128GB (more for data queries & analysis)
+        + processors 4 cores - 32 cores (more for heavy calculations and processing)
+        + Input/Output Processing 2400 - 64000 (more for back and forth processing to disk such as making frequent updates which leads to heavy workload)
+        + Storage 128GB - 1TB (SSDs (Solid State Disks $$$) for read/write speeds)
+        
++ Pokemon Go estimated 1MM downloads on Day 1. They had 6MM downloads, and 100MM users in the first month. They had to scale up quick in order to retain those users        
+
+  
+# 01-06-05 - Availability 
+
++ Availability <- the data is accessible
++ Techniques
+
+    + Failover - replication / mirroring. Make a copy in case the first server fails
+    + Recovery - replication / logs. Must be able to recover the data.
+    
++ Uptime - can't have 100% availability. Servers must be updated at some point
+
+    + 99% uptime == 87 hours per year downtime
+    + 99.9% uptime == 8 hours per year downtime
+    + 99.99% == 52 minutes per year downtime
+    + 99.999% == 7.5 minutes per year downtime
+    + Four 9's or Five 9's are for the most essential services
+    
++ Replication / Mirroring
+
+    + Primary replica
+    + Secondary replicas - exact duplicates of primary
+    
++ High-availability <- synchronous replicas \$\$\$
+
+    + when a transaction comes in and gets written to the primary DB, it must be replicated to the secondary DB's with confirmation that it's been successfully written to the Primary
+    
++ Recovery servers <- asynchronous replicas
+
+    + typically smaller than primary / secondary DB servers
+    + used just in case of a disaster
+    
++ Availability and Recovery
+
++ High Availability (expensive option)
+
+    + Synchronous replicas (must complete the transaction)
+    + Must match the primary replica
+    + Expensive
+    
++ Recovery (Disaster)
+    
+    + Asynchronous replicas (could lose some data)
+    + TYpically smaller servers
+    + In a geographically different location
+    + Often used for backups and BI applications
+    
++ Tradeoffs of availability of a DB vs. how much you can afford \$\$\$
++ Primary server is where the $ is made - don't want to do analytics on primary server because that's where people are buying stuff
+
+    + Do analytics on recovery servers since it's a replica of the primary
+    + Analytics and queries should not mess with Production server (primary)
+    
+
+# 01-06-06 - Security and Compliance
+
++ Ensures data privacy, adherence to data governance compliance
++ Ethical reasons
+
+    + customers
+    + employees
+    
++ Regulations
+
+    + Sarbanes-Oxley Act (SOX)
+    + HIPPA - Health data
+    + GDPR - General Data Protections Regulation
+    + Gramm-Leach-Bliley Act (GLBA)
+    + USA Patriot Act
+    
++ Data Classification 
+
+    + How do we know what data is restricted, needs to be restricted, or is publicly available
+    + Data has different levels of classification
+    + Access based on data classification (AUTHENTICATION)
+        + User specific <- rights assigned to a specific user
+            + possibly in a group (Finance, HR, etc.)
+        + Application specific <- rights controlled through the application (service account)
+            + Equipment sensor reading
+            + Refrigerator
+            + Where the application controls data access rights
+        + Row-level <- prevents / grants access to specific rows
+            + for a particular region or product line
+            + employees in a specific department
+            + controlled by a filter applied to a specific column
+            + like putting a filter on the rows to display only the relevant information
+        + Column-level <- prevents / grants access to sensitive columns
+            + SSN, Salaray, Price, Forecast
+            + Tied to user or application rights
+            + based upon who you are, there are certain rules that drive what you're allowed to see
+        + DBMS Managed!
+    + Exposure (Data Loss Prevention) - make it difficult to be attacked by hackers
+        + Encryption <- making data unreadable
+            + At Rest
+                + Protects data on the hard drive
+                + DBMS encrypts before storing
+                + DBMS unencrypts when reading
+            + In Transit
+                + Protects data between DBMS and user
+                + DBMS encrypts data before sending to user
+                + DBMS sends "key" to user to unencrypt
+                + DBMS sends encrypted data and key separately to protect from interception
+        + Masking / Obfuscation <- controlled by the DBMS
+            + No chance of exposure (fully gated)
+            + Masking will automatically mask specific information as designed
+        
+
+# 01-07-01 Data Marts
+
+
+
+# 01-08-01 - Relational Model
+
+
+
+# 01-08-02 - Relational Model Part 2
+
+
+
+# 01-08-03 - Relationships
+
+
+
+
 
     
 
